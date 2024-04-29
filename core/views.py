@@ -17,3 +17,7 @@ def co2Visualizer(request):
     return render(request, "home.html", {'chart': chart})
 
 
+def pollutionVisualizer(request):
+    pass
+
+

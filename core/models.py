@@ -6,3 +6,8 @@ class CarbonEmission(models.Model):
 
     class Meta:
         ordering = ('date',)
+
+
+class Pollution(models.Model):
+    date = models.DateField()
+    value = models.FloatField()
