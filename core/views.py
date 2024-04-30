@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import CarbonEmission
+from django.shortcuts import render,HttpResponse
+from .models import CarbonEmission,Pollution
 import plotly.express as px
 def co2Visualizer(request):
     # return render(request,"co2.html", name="co2")
@@ -18,6 +18,17 @@ def co2Visualizer(request):
 
 
 def pollutionVisualizer(request):
-    pass
+    Poll = Pollution.objects.all()
+
+    fig = px.line (
+        x = [p.date for p in Poll],
+        y = [p.value for p in Poll],
+        title = "Pollution in Kathmandu over the years",
+        labels={'x': 'Date', 'y': "pm25: ug/m3"}
+    )
+
+    chart = fig.to_html()
+
+    return render(request, 'pollution.html', {'chart': chart})
 
 

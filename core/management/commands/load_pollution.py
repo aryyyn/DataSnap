@@ -29,19 +29,22 @@ class Command(BaseCommand):
         # pm25_data = df[df['unit'] == 'µg/m³']
 
             df = pd.read_csv(file, encoding='UTF-8')
+
             a = []
             for index, row in df.iterrows():
-                data = datetime.strptime(row['utc'], "%Y-%m-%d")
-            a.append(
-                Pollution (
-                    time = df['utc'],
-                    value = df['value']
+                if "µg/m" in row['unit']:
+                    utc_datetime = datetime.strptime(row['utc'], "%Y-%m-%dT%H:%M:%S%z") 
+                    date_only = utc_datetime.date() 
+                    a.append(
+                        Pollution(
+                            date=date_only,
+                            value=row['value']
+                        )
+                    )
 
-                )
-            )
+            Pollution.objects.bulk_create(a)
 
-            Pollution.objects.abulk_create(a)
-
+            print(Pollution.objects.count())
 
         # print(pm25_data)
             
